@@ -1,4 +1,6 @@
 ﻿using LanchesMac.Context;
+using LanchesMac.Repositories;
+using LanchesMac.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LanchesMac;
@@ -16,9 +18,16 @@ public class Startup
     {
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+        
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
         services.AddControllersWithViews();
+        
+        services.AddMemoryCache();
+        services.AddSession();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,9 +42,10 @@ public class Startup
             app.UseHsts();
         }
         app.UseHttpsRedirection();
+        
         app.UseStaticFiles();
-
         app.UseRouting();
+        app.UseSession();
 
         app.UseAuthorization();
 
