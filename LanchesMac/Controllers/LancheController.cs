@@ -14,7 +14,6 @@ namespace LanchesMac.Controllers
             _lancheRepository = lancheRepository;
         }
 
-        // Todo: Resolver o problema de aceitar qualquer coisa na url.
         public IActionResult List(string categoria)
         {
             IEnumerable<Lanche> lanches;
@@ -27,18 +26,21 @@ namespace LanchesMac.Controllers
             }
             else
             {
-                if (string.Equals("Normal", categoria, StringComparison.OrdinalIgnoreCase))
-                {
-                    lanches = _lancheRepository.Lanches
-                        .Where(l => l.Categoria.CategoriaNome.Equals("Normal"))
-                        .OrderBy(l => l.Nome);
-                }
-                else
-                {
-                    lanches = _lancheRepository.Lanches
-                        .Where(l => l.Categoria.CategoriaNome.Equals("Natural"))
-                        .OrderBy(l => l.Nome);
-                }
+                //if (string.Equals("Normal", categoria, StringComparison.OrdinalIgnoreCase))
+                //{
+                //    lanches = _lancheRepository.Lanches
+                //        .Where(l => l.Categoria.CategoriaNome.Equals("Normal"))
+                //        .OrderBy(l => l.Nome);
+                //}
+                //else
+                //{
+                //    lanches = _lancheRepository.Lanches
+                //        .Where(l => l.Categoria.CategoriaNome.Equals("Natural"))
+                //        .OrderBy(l => l.Nome);
+                //}
+                lanches = _lancheRepository.Lanches
+                    .Where(l => l.Categoria.CategoriaNome.Equals(categoria))
+                    .OrderBy(c => c.Nome);
                 categoriaAtual = categoria;
             }
 
